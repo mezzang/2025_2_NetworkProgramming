@@ -50,6 +50,8 @@ int main(int argc, char* argv[])
 		error_handling("connect() error!");
 	
     printf("Input file name: ");
+    FILE *fp = fopen(file_name, "w");
+
     fgets(send_packet.buf, sizeof(send_packet.buf), stdin);
     strcpy(file_name, send_packet.buf);
     printf("[Client] request %s\n", file_name);
@@ -68,17 +70,19 @@ int main(int argc, char* argv[])
         } else {
             if(recv_packet.buf_len < BUF_SIZE){
                 printf("[Client] Rx SEQ: %d, len: %d bytes\n", recv_packet.seq, recv_packet.buf_len);
-                total_len += recv_packet.buf_len;
+                send_packet.buf_len = write(fp, recv_packet.buf, recv_packet.buf_len);
+                total_len += send_packet.buf_len;
                 printf("%s received (%d Bytes)\n", file_name, total_len);
                 break;
             }
             printf("[Client] Rx SEQ: %d, len: %d bytes\n", recv_packet.seq, recv_packet.buf_len);
-            total_len += recv_packet.buf_len;
+            send_packet.buf_len = write(fp, recv_packet.buf, recv_packet.buf_len);
+            total_len += send_packet.buf_len;
             send_packet.ack = recv_packet.seq + 1;
+            write(sock, &send_packet, sizeof(send_packet));
         }
-        write(sock, &send_packet, sizeof(send_packet));
-
     }
+    close(fp);
 	printf("Exit client\n");
 	close(sock);
 	return 0;
