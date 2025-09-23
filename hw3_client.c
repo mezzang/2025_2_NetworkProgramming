@@ -30,7 +30,8 @@ int main(int argc, char* argv[])
     char file_name[BUF_SIZE];
     PACKET recv_packet;
     PACKET send_packet;
-	
+    FILE *fp = NULL;
+
 	if(argc!=3){
 		printf("Usage : %s <IP> <port>\n", argv[0]);
 		exit(1);
@@ -50,14 +51,17 @@ int main(int argc, char* argv[])
 		error_handling("connect() error!");
 	
     printf("Input file name: ");
-    FILE *fp = fopen(file_name, "wb");
 
     fgets(send_packet.buf, sizeof(send_packet.buf), stdin);
+    send_packet.buf[strcspn(send_packet.buf, "\r\n")] = '\0';
     strcpy(file_name, send_packet.buf);
     send_packet.seq = 0;
     send_packet.ack = 0;
     send_packet.buf_len = strlen(send_packet.buf);
     write(sock, &send_packet, sizeof(send_packet));
+
+    
+
     printf("[Client] request %s\n", file_name);
     printf("\n");
     printf("\n");
@@ -70,18 +74,21 @@ int main(int argc, char* argv[])
             break;
             
         } else {
-            if(recv_packet.buf_len < BUF_SIZE){
-                printf("[Client] Rx SEQ: %d, len: %d bytes\n", recv_packet.seq, recv_packet.buf_len);
-                send_packet.buf_len = fwrite(recv_packet.buf, 1, BUF_SIZE, fp);
-                total_len += send_packet.buf_len;
+            if (fp == NULL) {
+                fp = fopen(file_name, "wb");
+                if (!fp) error_handling("fopen() error");
+            }
+            
+            printf("[Client] Rx SEQ: %d, len: %d bytes\n", recv_packet.seq, recv_packet.buf_len);
+            send_packet.buf_len = fwrite(recv_packet.buf, 1, recv_packet.buf_len, fp);
+            total_len += send_packet.buf_len;
+            send_packet.ack = recv_packet.seq +recv_packet.buf_len + 1;
+            if (recv_packet.buf_len < BUF_SIZE) {
                 printf("%s received (%d Bytes)\n", file_name, total_len);
-                close(fp);
+                fclose(fp);
+                fp = NULL;
                 break;
             }
-            printf("[Client] Rx SEQ: %d, len: %d bytes\n", recv_packet.seq, recv_packet.buf_len);
-            send_packet.buf_len = fwrite(recv_packet.buf, 1, BUF_SIZE, fp);
-            total_len += send_packet.buf_len;
-            send_packet.ack = recv_packet.seq + 1;
             printf("[Client] Tx ACK: %d\n", send_packet.ack);
             write(sock, &send_packet, sizeof(send_packet));
         }
