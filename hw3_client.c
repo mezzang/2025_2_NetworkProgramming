@@ -50,39 +50,43 @@ int main(int argc, char* argv[])
 		error_handling("connect() error!");
 	
     printf("Input file name: ");
-    FILE *fp = fopen(file_name, "w");
+    FILE *fp = fopen(file_name, "wb");
 
     fgets(send_packet.buf, sizeof(send_packet.buf), stdin);
     strcpy(file_name, send_packet.buf);
-    printf("[Client] request %s\n", file_name);
     send_packet.seq = 0;
     send_packet.ack = 0;
-    send_packet.buf_len = 0;
+    send_packet.buf_len = strlen(send_packet.buf);
     write(sock, &send_packet, sizeof(send_packet));
+    printf("[Client] request %s\n", file_name);
+    printf("\n");
+    printf("\n");
 
     while(1){
         read(sock, &recv_packet, sizeof(recv_packet));
         //파일 존재하지 않음
-        if(recv_packet.seq == 0 && recv_packet.ack == 0){
+        if(strcmp(recv_packet.buf, "File Not Found")==0){
             printf("%s\n", recv_packet.buf);
             break;
             
         } else {
             if(recv_packet.buf_len < BUF_SIZE){
                 printf("[Client] Rx SEQ: %d, len: %d bytes\n", recv_packet.seq, recv_packet.buf_len);
-                send_packet.buf_len = write(fp, recv_packet.buf, recv_packet.buf_len);
+                send_packet.buf_len = fwrite(recv_packet.buf, 1, BUF_SIZE, fp);
                 total_len += send_packet.buf_len;
                 printf("%s received (%d Bytes)\n", file_name, total_len);
+                close(fp);
                 break;
             }
             printf("[Client] Rx SEQ: %d, len: %d bytes\n", recv_packet.seq, recv_packet.buf_len);
-            send_packet.buf_len = write(fp, recv_packet.buf, recv_packet.buf_len);
+            send_packet.buf_len = fwrite(recv_packet.buf, 1, BUF_SIZE, fp);
             total_len += send_packet.buf_len;
             send_packet.ack = recv_packet.seq + 1;
+            printf("[Client] Tx ACK: %d\n", send_packet.ack);
             write(sock, &send_packet, sizeof(send_packet));
         }
     }
-    close(fp);
+    
 	printf("Exit client\n");
 	close(sock);
 	return 0;

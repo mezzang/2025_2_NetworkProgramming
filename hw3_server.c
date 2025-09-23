@@ -1,6 +1,5 @@
 // 2022428053 이미진
 #include <stdio.h>
-#include <time.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -71,7 +70,7 @@ int main(int argc, char * argv[])
     
     read(clnt_sock, &recv_packet, sizeof(recv_packet));
     strcpy(file_name, recv_packet.buf);
-    FILE *fp = fopen(file_name, "r");
+    FILE *fp = fopen(file_name, "rb");
     if(fp==NULL){
         send_packet.seq = 0;
         send_packet.ack = 0;
@@ -88,12 +87,13 @@ int main(int argc, char * argv[])
         send_packet.seq = SEQ_START;
         
         while(1){
-            send_packet.buf_len = read(fp, send_packet.buf, sizeof(send_packet.buf));
+            send_packet.buf_len = fread(send_packet.buf, 1, BUF_SIZE, fp);
             total_len += send_packet.buf_len;
             printf("[Server] Tx: SEQ: %d, %d byte data\n", send_packet.seq, send_packet.buf_len);
             write(clnt_sock, &send_packet, sizeof(send_packet));
             if(send_packet.buf_len < BUF_SIZE){
                 printf("%s sent(%d Bytes)\n", file_name, total_len);
+                fclose(fp);
                 break;
             }
             read(clnt_sock, &recv_packet, sizeof(recv_packet));
@@ -104,7 +104,7 @@ int main(int argc, char * argv[])
         
     }
 
-    fclose(fp);
+    
     printf("Exit server\n");
     close(clnt_sock);
     close(serv_sock);
