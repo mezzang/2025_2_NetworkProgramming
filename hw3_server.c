@@ -72,7 +72,7 @@ int main(int argc, char * argv[])
     strcpy(file_name, recv_packet.buf);
     FILE *fp = fopen(file_name, "rb");
     if(fp==NULL){
-        memset(&send_packet, 0, sizeof(send_packet));
+        memset(&send_packet, 0, sizeof(send_packet)); //memset 제일 위에 해주기
         send_packet.seq = 0;
         send_packet.ack = 0;
         strcpy(send_packet.buf, "File Not Found");
@@ -98,6 +98,7 @@ int main(int argc, char * argv[])
             if(send_packet.buf_len < BUF_SIZE){
                 printf("%s sent(%d Bytes)\n", file_name, total_len);
                 fclose(fp);
+                fp = NULL; // reset file pointer for next potential file
                 break;
             }
             read(clnt_sock, &recv_packet, sizeof(recv_packet));

@@ -86,7 +86,7 @@ int main(int argc, char* argv[])
             if (recv_packet.buf_len < BUF_SIZE) {
                 printf("%s received (%d Bytes)\n", file_name, total_len);
                 fclose(fp);
-                fp = NULL;
+                fp = NULL; // reset file pointer for next potential file
                 break;
             }
             printf("[Client] Tx ACK: %d\n", send_packet.ack);
