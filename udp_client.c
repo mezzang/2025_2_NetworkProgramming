@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
         adr_sz = sizeof(from_adr);
         recvfrom(sock, &recv_packet, sizeof(recv_packet), 0, (struct sockaddr*)&from_adr, &adr_sz);
 
-        printf("[Client] Rx cmd = %d, result = %d", recv_packet.cmd, recv_packet.result);
+        printf("[Client] Rx cmd = %d, result = %d\n", recv_packet.cmd, recv_packet.result);
 
         if(recv_packet.cmd == GAME_END){
             printf("No empty space. Exit this program.\n");
@@ -83,14 +83,14 @@ int main(int argc, char *argv[])
 
         
         for(int i=0; i< BOARD_SIZE; i++){
-            printf("+--------------------+\n");
+            printf("+---------+\n");
             for(int j = 0; j <BOARD_SIZE; j++){
                 client_board[i][j] = recv_packet.board[i][j];
                 printf("|%c", client_board[i][j]);
             }
             printf("|\n");
         }
-        printf("+--------------------+\n");
+        printf("+---------+\n");
         
         sleep(1);
     }   

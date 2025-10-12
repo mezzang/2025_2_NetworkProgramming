@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
     printf("   Finding Alphabet Game Server  \n");
     printf("---------------------------------\n");
     for(int i = 0; i < BOARD_SIZE; i++){
-        printf("+---------------------+ +---------------------+\n");
+        printf("+---------+ +---------+\n");
         for(int j = 0; j < BOARD_SIZE; j++){
             printf("|%c",board[i][j]);
         }
@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
         }
         printf("|\n");
     }
-    printf("+---------------------+ +---------------------+\n");
+    printf("+---------+ +---------+\n");
 
     int filled = 0;
     
@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
         sendto(serv_sock, &send_packet, sizeof(send_packet), 0,(struct sockaddr*)&clnt_adr, clnt_adr_sz);
         printf("[Server] Tx cmd = %d result = %d\n", send_packet.cmd, send_packet.result);
         for(int i = 0; i < BOARD_SIZE; i++){
-            printf("+---------------------+ +---------------------+\n");
+            printf("+---------+ +---------+\n");
             for(int j = 0; j < BOARD_SIZE; j++){
                 printf("|%c",board[i][j]);
             }
@@ -131,7 +131,7 @@ int main(int argc, char *argv[])
             }
             printf("|\n");
         }
-        printf("+---------------------+ +---------------------+\n");
+        printf("+---------+ +---------+\n");
         sleep(1);
         
         
