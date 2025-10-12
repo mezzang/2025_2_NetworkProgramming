@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
         }
         printf("+---------+\n");
         
-        sleep(1);
+        
     }   
     
     close(sock);
