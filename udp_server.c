@@ -39,8 +39,9 @@ int main(int argc, char *argv[])
     struct sockaddr_in serv_adr, clnt_adr;
 
     if(argc!=2){
-        exit(1);
+        
         printf("Usage : %s <port>\n", argv[0]);
+        exit(1);
     }
     serv_sock=socket(PF_INET, SOCK_DGRAM, 0);
     if(serv_sock==-1)
@@ -108,7 +109,8 @@ int main(int argc, char *argv[])
                     result_board[i][j] = target;
                 } 
             }
-        
+        }
+
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
                 send_packet.board[i][j] = result_board[i][j];
@@ -135,9 +137,9 @@ int main(int argc, char *argv[])
         sleep(1);
         
         
-        }
-
     }
+
+    
     close(serv_sock);
     return 0;
 }

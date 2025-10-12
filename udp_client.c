@@ -36,8 +36,9 @@ int main(int argc, char *argv[])
     struct sockaddr_in serv_adr, from_adr;
 
     if(argc!=3){
-        exit(1);
+        
         printf("Usage : %s <IP> <port>\n", argv[0]);
+        exit(1);
     }
 
     sock=socket(PF_INET, SOCK_DGRAM, 0);
@@ -50,7 +51,7 @@ int main(int argc, char *argv[])
     serv_adr.sin_port=htons(atoi(argv[2]));
 
     printf("---------------------------------\n");
-    printf("   Finding Alphabet Game Server  \n");
+    printf("   Finding Alphabet Game Client  \n");
     printf("---------------------------------\n");
 
     for(int i = 0; i <BOARD_SIZE; i++){
