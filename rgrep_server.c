@@ -76,10 +76,11 @@ int main(int argc, char * argv[])
     while(1){
         memset(&send_packet, 0, sizeof(send_packet));
         memset(&recv_packet, 0, sizeof(recv_packet));
+        line_num = 0;
         count = 0;
         read(clnt_sock, &recv_packet, sizeof(recv_packet));
         if(recv_packet.cmd == GREP_END){
-            printf("[Rx] GREP_END(%d)\n", send_packet.cmd);
+            printf("[Rx] GREP_END(%d)\n", recv_packet.cmd);
             send_packet.cmd = GREP_END_ACK;
             write(clnt_sock, &send_packet, sizeof(send_packet));
             printf("[Tx] GREP_END_ACK(%d)\n", send_packet.cmd);
@@ -195,6 +196,7 @@ int main(int argc, char * argv[])
             write(clnt_sock, &send_packet, sizeof(send_packet));
             printf("[Tx] GREP_RES(%d), result: %d\n", send_packet.cmd, send_packet.result);
             printf("-------------------------------------------\n");
+            fclose(fp);
 
         }
         

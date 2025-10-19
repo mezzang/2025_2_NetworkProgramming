@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
             break;
 
         }
-        else {
+       
         send_packet.cmd = GREP_REQ;
         write(sock, &send_packet, sizeof(send_packet));
         printf("[Tx] grep_req(%d) options: %s\n", send_packet.cmd, send_packet.options);
@@ -75,13 +75,10 @@ int main(int argc, char* argv[])
         if(recv_packet.result == 0){
             printf("-------------------------------------------\n");
         } else {
-            printf("%s", recv_packet.matched_lines);
+            printf("%s\n", recv_packet.matched_lines);
         }
         printf("-------------------------------------------\n");
 
-        }
-
-        
 
     }
     printf("\nExit rGrep client\n");
