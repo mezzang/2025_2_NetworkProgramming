@@ -54,6 +54,7 @@ int main(int argc, char* argv[])
 	while(1) {
         printf("Type [option] [keyword] [filename]: ");
         fgets(send_packet.options, sizeof(send_packet.options), stdin);
+        send_packet.options[strcspn(send_packet.options, "\r\n")] = '\0';
 
         if(strcmp(send_packet.options,"quit") == 0){
             send_packet.cmd = GREP_END;
@@ -67,7 +68,7 @@ int main(int argc, char* argv[])
        
         send_packet.cmd = GREP_REQ;
         write(sock, &send_packet, sizeof(send_packet));
-        printf("[Tx] grep_req(%d) options: %s\n", send_packet.cmd, send_packet.options);
+        printf("[Tx] GREP_REQ(%d) options: %s\n", send_packet.cmd, send_packet.options);
         printf("-------------------------------------------\n");
         read(sock, &recv_packet, sizeof(recv_packet));
         printf("[Rx] GREP_RES(%d), result: %d\n", recv_packet.cmd, recv_packet.result);
