@@ -88,8 +88,8 @@ int main(int argc, char * argv[])
         printf("[Rx] GREP_REQ(%d), options: %s\n", recv_packet.cmd, recv_packet.options);
         
         option = strtok(recv_packet.options, " ");
-        word = strtok(recv_packet.options, " ");
-        filename = strtok(recv_packet.options, " ");
+        word = strtok(NULL, " ");
+        filename = strtok(NULL, " ");
 
         FILE *fp = fopen(filename, "rb");
         if(fp==NULL){
