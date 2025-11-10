@@ -6,7 +6,6 @@
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <sys/time.h>
-#include <errno.h>
 
 
 #define BUF_SIZE    100
@@ -127,23 +126,19 @@ int main(int argc, char* argv[])
             printf("Server closed connection.\n");
             break;
         }
-        else {               // n < 0  → 오류 또는 타임아웃
-            if (errno == EAGAIN || errno == EWOULDBLOCK) {
-                /* ★ 수신 타임아웃 발생 → 재전송 요청 */
-                timeout_cnt++;
-                printf("\nReceive Timeout!. Request Retransmission\n");
+        else {               // n < 0  
+            /* ★ 수신 타임아웃 발생 → 재전송 요청 */
+            timeout_cnt++;
+            printf("\nReceive Timeout!. Request Retransmission\n");
 
-                req.cmd = MSG_RETRANS;
-                req.ack = last_seq + 1;    // 수신 예정 SEQ 번호
+            req.cmd = MSG_RETRANS;
+            req.ack = last_seq + 1;    // 수신 예정 SEQ 번호
 
-                printf("[Tx] MSG_RETRAN (ACK: %d)\n", req.ack);
+            printf("[Tx] MSG_RETRAN (ACK: %d)\n", req.ack);
 
-                send(sock, &req, sizeof(req), 0);
-                continue;
-            } else {
-                perror("recv() error");
-                break;
-            }
+            send(sock, &req, sizeof(req), 0);
+            
+            
         }
     }
     printf("Timeout count: %d\n", timeout_cnt);
