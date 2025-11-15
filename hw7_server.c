@@ -84,9 +84,9 @@ int main(int argc, char * argv[])
         clnt_addr_size=sizeof(clnt_addr);  
         clnt_sock=accept(serv_sock, (struct sockaddr*)&clnt_addr,&clnt_addr_size);
         if(clnt_sock==-1)
-            error_handling("accept() error"); 
-        printf("new client connected : %d\n", clnt_sock);
-        
+            continue;
+        else 
+            printf("new client connected : %d\n", clnt_sock);
         pid = fork();
         if(pid == -1){
             close(clnt_sock);
