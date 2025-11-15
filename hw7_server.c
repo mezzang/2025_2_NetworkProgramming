@@ -86,7 +86,7 @@ int main(int argc, char * argv[])
         if(clnt_sock==-1)
             continue;
         else 
-            printf("new client connected : %d\n", clnt_sock);
+            printf("new client connected : %d (Port: %d)\n", clnt_sock, ntohs(clnt_addr.sin_port));
         pid = fork();
         if(pid == -1){
             close(clnt_sock);
