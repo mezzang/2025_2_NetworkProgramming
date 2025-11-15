@@ -110,7 +110,7 @@ int main(int argc, char * argv[])
                 end = time(NULL);
                 printf("[Rx] PING(%d) time: %s from port(%d) => ", recv_packet.cmd, recv_packet.time_msg, ntohs(clnt_addr.sin_port));
                 delay = difftime(end, start);
-                if(delay < 4){
+                if(delay <= 4){
                     send_packet.cmd = PONG_MSG;
                     time(&t);
                     p = localtime(&t);
@@ -131,7 +131,7 @@ int main(int argc, char * argv[])
             }
             printf("Client disconnected.(Port: %d)\n", ntohs(clnt_addr.sin_port));
             close(clnt_sock);
-            exit(0);
+            return 0;
         }
         else {
             close(clnt_sock);
