@@ -55,13 +55,12 @@ int main(int argc, char* argv[])
     srand((unsigned int)time(NULL));
 
     time_t t;
-    time(&t);
-
     struct tm *p;
     char res[50];
 
     while(1){
         for(int i = 0; i <10; i++){
+            time(&t);
             p = localtime(&t);
             sprintf(res, "%d-%d-%d %d:%d:%d", 1900 + p->tm_year, 1 + p->tm_mon, p->tm_mday, p->tm_hour, p->tm_min, p->tm_sec);
             strcpy(send_packet.time_msg, res); // 현재 시간 문자열 복사

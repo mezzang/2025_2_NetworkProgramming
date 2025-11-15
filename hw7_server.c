@@ -41,7 +41,6 @@ int main(int argc, char * argv[])
     PACKET recv_packet;
 
     time_t t;
-    time(&t);
     struct tm *p;
 
     time_t start, end;
@@ -100,6 +99,7 @@ int main(int argc, char * argv[])
             read(clnt_sock, &recv_packet, sizeof(recv_packet));
             printf("[Rx] PING(%d) time: %s from port(%d) => ", recv_packet.cmd, recv_packet.time_msg, ntohs(clnt_addr.sin_port));
             send_packet.cmd = PONG_MSG;
+            time(&t);
             p = localtime(&t);
             sprintf(send_packet.time_msg, "%d-%d-%d %d:%d:%d", 1900 + p->tm_year, 1 + p->tm_mon, p->tm_mday, p->tm_hour, p->tm_min, p->tm_sec);
             write(clnt_sock, &send_packet, sizeof(send_packet));
@@ -112,6 +112,7 @@ int main(int argc, char * argv[])
                 delay = difftime(end, start);
                 if(delay < 4){
                     send_packet.cmd = PONG_MSG;
+                    time(&t);
                     p = localtime(&t);
                     sprintf(send_packet.time_msg, "%d-%d-%d %d:%d:%d", 1900 + p->tm_year, 1 + p->tm_mon, p->tm_mday, p->tm_hour, p->tm_min, p->tm_sec);
                     write(clnt_sock, &send_packet, sizeof(send_packet));
@@ -119,6 +120,7 @@ int main(int argc, char * argv[])
                     
                 } else{
                     send_packet.cmd = TERMINATE_MSG;
+                    time(&t);
                     p = localtime(&t);
                     sprintf(send_packet.time_msg, "%d-%d-%d %d:%d:%d", 1900 + p->tm_year, 1 + p->tm_mon, p->tm_mday, p->tm_hour, p->tm_min, p->tm_sec);
                     write(clnt_sock, &send_packet, sizeof(send_packet));
@@ -129,8 +131,14 @@ int main(int argc, char * argv[])
             }
             printf("Client disconnected.(Port: %d)\n", ntohs(clnt_addr.sin_port));
             close(clnt_sock);
+            exit(0);
+        }
+        else {
+            close(clnt_sock);
         }
     }
+    close(serv_sock);
+    return 0;
 }
 
 void error_handling(char *message)
