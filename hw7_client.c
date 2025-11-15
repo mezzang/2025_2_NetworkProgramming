@@ -77,14 +77,13 @@ int main(int argc, char* argv[])
                 printf("[Rx] PONG(%d), time: %s\n", recv_packet.cmd, recv_packet.time_msg);
             } else if(recv_packet.cmd == TERMINATE_MSG){
                 printf("[Rx] TERMINATE(%d), Connection close.\n", recv_packet.cmd);
-                break;
+                printf("Client close\n");
+                close(sock);
+                return 0;
             }
         }
         
     }
-    printf("Client close\n");
-	close(sock);
-	return 0;
 }
 
 void error_handling(char *message)
