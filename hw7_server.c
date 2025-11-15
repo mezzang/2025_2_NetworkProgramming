@@ -65,6 +65,12 @@ int main(int argc, char * argv[])
 	if(serv_sock == -1)
 		error_handling("socket() error");
 	
+    int optval = 1;
+    if (setsockopt(serv_sock, SOL_SOCKET, SO_REUSEADDR,
+                &optval, sizeof(optval)) == -1) {
+        error_handling("setsockopt() error");
+    }
+
 	/* 주소 정보 초기화 */
 	memset(&serv_addr, 0, sizeof(serv_addr));
 	serv_addr.sin_family=AF_INET;
