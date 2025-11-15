@@ -49,7 +49,7 @@ int main(int argc, char * argv[])
 
     struct sigaction act;
     int state = 0;
-    
+
     // signal handler 등록
     act.sa_handler = read_childproc;
     sigemptyset(&act.sa_mask);
@@ -98,7 +98,7 @@ int main(int argc, char * argv[])
             close(serv_sock);
             // 최초 한 번
             read(clnt_sock, &recv_packet, sizeof(recv_packet));
-            printf("[Rx] PING(%d) time: %s from port(%d) => ", recv_packet.cmd, recv_packet.time_msg, clnt_addr);
+            printf("[Rx] PING(%d) time: %s from port(%d) => ", recv_packet.cmd, recv_packet.time_msg, ntohs(clnt_addr.sin_port));
             send_packet.cmd = PONG_MSG;
             p = localtime(&t);
             sprintf(send_packet.time_msg, "%d-%d-%d %d:%d:%d", 1900 + p->tm_year, 1 + p->tm_mon, p->tm_mday, p->tm_hour, p->tm_min, p->tm_sec);
@@ -115,14 +115,14 @@ int main(int argc, char * argv[])
                     p = localtime(&t);
                     sprintf(send_packet.time_msg, "%d-%d-%d %d:%d:%d", 1900 + p->tm_year, 1 + p->tm_mon, p->tm_mday, p->tm_hour, p->tm_min, p->tm_sec);
                     write(clnt_sock, &send_packet, sizeof(send_packet));
-                    printf("[Tx] PONG(%d), time: %s to Port(%d)\n", send_packet.cmd, send_packet.time_msg);
+                    printf("[Tx] PONG(%d), time: %s to Port(%d)\n", send_packet.cmd, send_packet.time_msg, ntohs(clnt_addr.sin_port));
                     
                 } else{
                     send_packet.cmd = TERMINATE_MSG;
                     p = localtime(&t);
                     sprintf(send_packet.time_msg, "%d-%d-%d %d:%d:%d", 1900 + p->tm_year, 1 + p->tm_mon, p->tm_mday, p->tm_hour, p->tm_min, p->tm_sec);
                     write(clnt_sock, &send_packet, sizeof(send_packet));
-                    printf("[Tx] TERMINATE(%d), time: %s to Port(%d)\n", send_packet.cmd, send_packet.time_msg);
+                    printf("[Tx] TERMINATE(%d), time: %s to Port(%d)\n", send_packet.cmd, send_packet.time_msg, ntohs(clnt_addr.sin_port));
                     break;
                 }
                     

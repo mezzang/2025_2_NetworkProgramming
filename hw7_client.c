@@ -71,7 +71,7 @@ int main(int argc, char* argv[])
 
             send_packet.cmd = PING_MSG;
             write(sock, &send_packet, sizeof(send_packet));
-            printf("[Tx] Ping(%d), sleep(%d), [%d]: %s => ", send_packet.cmd, delay, send_packet.time_msg);
+            printf("[Tx] Ping(%d), sleep(%d), [%d]: %s => ", send_packet.cmd, delay, i, send_packet.time_msg);
 
             read(sock, &recv_packet, sizeof(recv_packet));
             if(recv_packet.cmd == PONG_MSG){
