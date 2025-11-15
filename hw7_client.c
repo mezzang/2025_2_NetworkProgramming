@@ -82,6 +82,9 @@ int main(int argc, char* argv[])
                 return 0;
             }
         }
+        printf("Client close\n");
+        close(sock);
+        return 0;
         
     }
 }
