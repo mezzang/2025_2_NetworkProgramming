@@ -97,11 +97,12 @@ int main(int argc, char *argv[])
                 }
                 if(FD_ISSET(fd2, &temps)){
                     int str_len = read(fd2, send_packet.buf, BUF_SIZE);
+                    send_packet.buf[str_len] = '\0';  
                     if (str_len == 0) {
                         // EOF → 파일 끝
-                        memset(&send_packet, 0, sizeof(send_packet));
-                        send_packet.cmd = TERMINATE;
-                        write(sock, &send_packet, sizeof(send_packet));
+                        // memset(&send_packet, 0, sizeof(send_packet));
+                        // send_packet.cmd = TERMINATE;
+                        // write(sock, &send_packet, sizeof(send_packet));
                         close(fd2);
                         break;
                     } else {

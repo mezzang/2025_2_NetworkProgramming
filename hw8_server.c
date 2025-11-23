@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
 				else    // read message!
 				{	
 					PACKET recv_packet;
-
+					
 					str_len = read(i, &recv_packet, sizeof(PACKET));
 					if(str_len==0)    // close request!
 					{
