@@ -100,9 +100,9 @@ int main(int argc, char *argv[])
                     send_packet.buf[str_len] = '\0';  
                     if (str_len == 0) {
                         // EOF → 파일 끝
-                        // memset(&send_packet, 0, sizeof(send_packet));
-                        // send_packet.cmd = TERMINATE;
-                        // write(sock, &send_packet, sizeof(send_packet));
+                        memset(&send_packet, 0, sizeof(send_packet));
+                        send_packet.cmd = TERMINATE;
+                        write(sock, &send_packet, sizeof(send_packet));
                         close(fd2);
                         break;
                     } else {
@@ -135,6 +135,7 @@ int main(int argc, char *argv[])
             if(FD_ISSET(sock, &temps)){
                 int rlen = read(sock, &recv_packet, sizeof(recv_packet));
                 if (rlen <= 0) {
+                    FD_CLR(sock, &reads);      
                     break;
                 }
                 if(recv_packet.cmd == CMD_SEND){
