@@ -65,13 +65,13 @@ int main(int argc, char *argv[])
     printf("1. Sender   2. Receiver\n");
     printf("---------------------------\n");
 
-    fgets(role, sizeof(role), stdin);
-
+    scanf("%c", &role);
+    
     memset(&send_packet, 0, sizeof(send_packet)); 
 
     printf("Connected....\n");
 
-    if(!strcmp(role[0],"1")){
+    if(!strcmp(role,"1")){
         printf("File Sender start!\n");
         int fd2 = open("test.txt", O_RDONLY);
         if(fd2 < 0){
@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
             }
                 
         }              
-    } else if (!strcmp(role[0],"2")){
+    } else if (!strcmp(role,"2")){
         while(1){
             fd_set reads, temps;
             struct timeval timeout;
