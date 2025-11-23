@@ -29,6 +29,8 @@ int main(int argc, char *argv[])
     int serv_sock, clnt_sock;
     int fd_max;
     int fd_num;
+	int client_cnt = 0; 
+	int end_server = 0;
 
     struct sockaddr_in serv_addr;
     struct sockaddr_in clnt_addr;
@@ -91,18 +93,24 @@ int main(int argc, char *argv[])
 					FD_SET(clnt_sock, &reads);
 					if(fd_max<clnt_sock)
 						fd_max=clnt_sock;
+					client_cnt++;
 					printf("connected client: %d fd_max: %d\n", clnt_sock, fd_max);
 				}
 				else    // read message!
 				{	
 					PACKET recv_packet;
 
-					str_len=read(i, &recv_packet, BUF_SIZE);
+					str_len = read(i, &recv_packet, sizeof(PACKET));
 					if(str_len==0)    // close request!
 					{
 						FD_CLR(i, &reads);
 						close(i);
+						client_cnt--;
 						printf("closed client: %d \n", i);
+						if (client_cnt == 0) {
+							end_server = 1;
+							break;  
+						}
 					}
 					else
 					{
@@ -113,7 +121,7 @@ int main(int argc, char *argv[])
 								if (FD_ISSET(j, &reads)) {
 									// 서버 소켓/자기 자신은 제외
 									if (j != serv_sock && j != i) {
-										write(j, &recv_packet, str_len);
+										write(j, &recv_packet, sizeof(recv_packet));
 										printf("Forward  client [%d] ---> client [%d] (%d Bytes)\n",i, j, str_len);
 									}
 								}
@@ -124,7 +132,7 @@ int main(int argc, char *argv[])
 								if (FD_ISSET(j, &reads)) {
 									// 서버 소켓/자기 자신은 제외
 									if (j != serv_sock && j != i) {
-										write(j, &recv_packet, str_len);
+										write(j, &recv_packet, sizeof(recv_packet));
 										printf("[Tx] TERMINATE to [%d]\n",j);
 										
 									}
@@ -135,6 +143,8 @@ int main(int argc, char *argv[])
 				}
 			}
 		}
+		if(end_server)
+			break;
 	}
 	printf("Server Closed.\n");
 	close(serv_sock);
