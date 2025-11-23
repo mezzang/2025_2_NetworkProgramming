@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
 
     printf("Connected....\n");
 
-    if(!strcmp(role,"1")){
+    if(!strcmp(role[0],"1")){
         printf("File Sender start!\n");
         int fd2 = open("test.txt", O_RDONLY);
         if(fd2 < 0){
@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
             }
                 
         }              
-    } else if (!strcmp(role,"2")){
+    } else if (!strcmp(role[0],"2")){
         while(1){
             fd_set reads, temps;
             struct timeval timeout;
