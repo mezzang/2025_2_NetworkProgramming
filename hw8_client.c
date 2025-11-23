@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
 
     if(!strcmp(role,"1")){
         printf("File Sender start!\n");
-        int fd2 = open("test.txt", O_RDONLY);
+        int fd2 = open("rfc1180.txt", O_RDONLY);
         if(fd2 < 0){
             printf("File not Found.\n");
             exit(1); 
