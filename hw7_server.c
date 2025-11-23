@@ -100,6 +100,7 @@ int main(int argc, char * argv[])
         }
 
         if(pid == 0){
+            // 통신 용도
             close(serv_sock);
             // 최초 한 번
             read(clnt_sock, &recv_packet, sizeof(recv_packet));
