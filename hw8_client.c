@@ -131,7 +131,7 @@ int main(int argc, char *argv[])
                 continue;
             if(FD_ISSET(sock, &temps)){
                 read(sock, &recv_packet, sizeof(recv_packet));
-                if(recv_packet.cmd == MSG_SEND){
+                if(recv_packet.cmd == CMD_SEND){
                     printf("%s", recv_packet.buf);
                 } else if(recv_packet.cmd == TERMINATE){
                     printf("%s", recv_packet.buf);
