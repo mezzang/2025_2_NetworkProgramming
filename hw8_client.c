@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
     printf("1. Sender   2. Receiver\n");
     printf("---------------------------\n");
 
-    scanf("%c", &role);
+    scanf("%s", role);
     
     memset(&send_packet, 0, sizeof(send_packet)); 
 
