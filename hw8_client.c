@@ -109,6 +109,7 @@ int main(int argc, char *argv[])
                         send_packet.cmd = CMD_SEND;
                         write(sock, &send_packet, sizeof(send_packet));
                         printf("[Tx] File Read len: %d\n", str_len);
+                        sleep(1); 
                     }
                 } 
             }
@@ -140,7 +141,6 @@ int main(int argc, char *argv[])
                     printf("%s", recv_packet.buf);
                     fflush(stdout); 
                 } else if(recv_packet.cmd == TERMINATE){
-                    printf("%s", recv_packet.buf);
                     printf("[Rx] TERMINATE(%d)\n",recv_packet.cmd);
                     fflush(stdout);
                     break;
