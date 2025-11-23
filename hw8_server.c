@@ -22,6 +22,8 @@ int cmd;
 char buf[BUF_SIZE+1];
 }PACKET;
 
+void error_handling(char * message);
+
 int main(int argc, char *argv[])
 {
     int serv_sock, clnt_sock;

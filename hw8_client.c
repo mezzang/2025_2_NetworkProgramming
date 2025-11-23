@@ -104,9 +104,9 @@ int main(int argc, char *argv[])
                         close(fd2);
                         break;
                     } else {
-                        send_packet.cmd = MSG_SEND;
+                        send_packet.cmd = CMD_SEND;
                         write(sock, &send_packet, sizeof(send_packet));
-                        printf("[Tx] File Read len: %d\n", strlen);
+                        printf("[Tx] File Read len: %d\n", str_len);
                     }
                 } 
             }
