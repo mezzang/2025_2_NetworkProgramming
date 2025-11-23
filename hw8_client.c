@@ -136,6 +136,7 @@ int main(int argc, char *argv[])
                 } else if(recv_packet.cmd == TERMINATE){
                     printf("%s", recv_packet.buf);
                     printf("[Rx] TERMINATE(%d)\n",recv_packet.cmd);
+                    
                     break;
                 }
             }

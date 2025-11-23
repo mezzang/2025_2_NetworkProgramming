@@ -124,8 +124,9 @@ int main(int argc, char *argv[])
 								if (FD_ISSET(j, &reads)) {
 									// 서버 소켓/자기 자신은 제외
 									if (j != serv_sock && j != i) {
+										write(j, &recv_packet, str_len);
 										printf("[Tx] TERMINATE to [%d]\n",j);
-										break;
+										
 									}
 								}
 							}
