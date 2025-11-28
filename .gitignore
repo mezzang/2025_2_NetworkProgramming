@@ -1,0 +1,65 @@
+# Compiled executables
+hw09
+hw3_c
+hw3_s
+hw3s
+hw6_client
+hw6_server
+hw7_client
+hw7_server
+hw8_client
+hw8_server
+rgrep_client
+rgrep_server
+ude_client
+udp_client
+udp_server
+time_client
+time_server
+align_client
+align_server
+ping_client_mid
+ping_server_mid
+
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+# Shared objects
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Build directories
+build/
+dist/
+
+# macOS specific
+.DS_Store
