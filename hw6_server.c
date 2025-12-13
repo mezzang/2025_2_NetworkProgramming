@@ -1,4 +1,5 @@
 // 2022428053 이미진
+// TCP	통신을 이용한 수신 타임아웃 설정 및 패킷 재전송 기능
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>

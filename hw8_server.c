@@ -1,4 +1,6 @@
 // 2022428053 이미진
+// Multiplexing 기법을 이용한 Packet Forwarding 기능
+// select 함수, 파일 읽기, fflush(stdout)
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/select.h>

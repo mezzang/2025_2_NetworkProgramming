@@ -1,5 +1,6 @@
 // 2022428053 이미진
 // hw09.c : Multicast 기반 채팅 프로그램
+// SO_REUSEADDR, kill 호출, SIGTERM 시그널
 
 #include <stdio.h>
 #include <stdlib.h>

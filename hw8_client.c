@@ -1,4 +1,5 @@
 // 2022428053 이미진
+// Multiplexing 기법을 이용한 Packet Forwarding 기능
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/select.h>

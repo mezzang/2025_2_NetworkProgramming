@@ -1,4 +1,5 @@
 // 2022428053 이미진
+// TCP	통신을 이용한 다중 접속 Ping-Pong 메시지 전송 프로그램
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
