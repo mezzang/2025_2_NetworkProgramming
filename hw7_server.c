@@ -1,6 +1,6 @@
 // 2022428053 이미진
 // TCP	통신을 이용한 다중 접속 Ping-Pong 메시지 전송 프로그램
-// rand() 함수, SO_REUSEADDR, SIGCHLD, 현재 시간
+// pid, rand() 함수, SO_REUSEADDR, SIGCHLD, 현재 시간
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
